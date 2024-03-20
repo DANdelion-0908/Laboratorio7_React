@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <style>.pressed {background-color: aqua;}</style>
+</head>
+<body>
+    <script type="text/babel">
+        const Button = ({incrementCount}) => {
+            return (<button onClick={incrementCount}>Incrementar</button>)
+        }
+
+        // CounterDisplay component that displays the count
+        const CounterDisplay = ({ count }) => {
+            return <div className="counter">This is the count property: {count}</div>
+        }
+
+        // ReactRoot component as the root component
+        const ReactRoot = () => {
+            const [count, setCount] = React.useState(0)
+
+            const incrementCount = () => {
+                setCount(count + 1)
+            }
+            return (
+                <div>
+                    <Button incrementCount={incrementCount} />
+                    <CounterDisplay count={count} />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ReactRoot />, document.getElementById('root'))
+    </script>
+</body>
+</html>

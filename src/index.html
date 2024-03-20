@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const data = [
+            {
+                "id": 4,
+                "title": "Pokémon",
+                "picture": "../Eula.jpg",
+                "vision": "GOTY",
+                "favorites": "XD",
+                "created_at": "2024-03-06T04:38:27.000Z"
+            },
+
+            {
+                "id": 5,
+                "title": "Mario",
+                "picture": "image.png",
+                "vision": "GOTY",
+                "favorites": "XD",
+                "created_at": "2024-03-06T04:38:27.000Z"
+            }
+        ]
+        
+
+        const Title = () => {
+            return (
+                <h1>{data[0].title}</h1>
+            )
+        }
+
+        const Image = () => {
+            return (
+                <img src={data[0].picture} alt="Game Image" height="200"/>
+            )
+        }
+
+        const Description = () => {
+            return (
+                <p>{data[0].vision}</p>
+            )
+        }
+
+        const Favorites = () => {
+            return (
+                <ul>
+                    {data.map((listItem, index) => {
+                       return <li key={index}>{listItem.favorites}</li>
+                    })}
+                </ul>
+            )
+        }
+
+        const App = () => {
+            return (
+                <div>
+                    <Title/>
+                    <Image/>
+                    <Description/>
+                    <Favorites/>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'))
+    </script>
+</body>
+</html>
