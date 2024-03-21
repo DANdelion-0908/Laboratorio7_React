@@ -14,27 +14,51 @@
     <script type="text/babel">
         const backEndURL = 'http://localhost:22217/posts'
 
-        // Color Palette from lightest to darkest
-        
+        // Color Palette
+        const WHITESMOKE = "#F2F0F0" // Content
+        const CARIBBEANCURRENT = "#006D77" // Elements
+        const LIGHTBLUE = "#B8DEDC" // Header
+        const COOLGRAY = "#99A1D2" // Background
 
         //Styles
         const gameTitle = {
-            fontFamily: "Arial",
-            color: "white"
+            fontFamily: "Verdana, sans-serif",
+            gridColumn: "1 / span 2",
         }
 
         const gameText = {
-            fontFamily: "Arial",
-            color: "white"
+            fontFamily: "Verdana, sans-serif",
+            gridColumn: "1 / 1",
+            gridRow: 2
         }
 
         const gameImage = {
             width: "300px",
-            justifySelf: "right"
+            gridColumn: 2,
+            gridRow: 2,
+            justifySelf: "end"
+        }
+        
+        const imageLinks = {
+            height: "50%",
+            justifySelf: "end",
+            padding: "0 2% 0 2%"
+        }
+
+        const pointsTitle = {
+            fontFamily: "Verdana, sans-serif",
+            gridRow: 3,
+            gridColumn: "1 / span2"
+        }
+
+        const pointsStyle = {
+            gridRow: 4,
+            gridColumn: "1 / span 2",
+            fontFamily: "Verdana, sans-serif"
         }
 
         const backGround = {
-            backgroundColor: "#640D14",
+            backgroundColor: COOLGRAY,
             display: "flex",
             height: "100%",
             width: "100%",
@@ -43,31 +67,28 @@
         }
 
         const blogContent = {
-            backgroundColor: "#AD2831",
+            backgroundColor: WHITESMOKE,
             maxWidth: "60%",
-            paddingTop: "10%"
+            padding: "2%",
         }
 
         const postCard = {
-            display: "flex",
-            flexDirection: "column",
-            padding: "3%",
-            justifyContent: "center"
+            display: "grid",
+            columnGap: "2%",
+            paddingBottom: "20%"
         }
 
+
         const blogHeader = {
-            backgroundColor: "#800E13",
-            color: "white",
-            fontSize: "50px",
+            backgroundColor: LIGHTBLUE,
             display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "space-evenly",
-            fontFamily: "Arial",
-            alignContent: "center",
+            fontFamily: "Verdana, sans-serif",
+            justifyContent: "space-between",
+            alignItems: "center",
             position: "fixed",
             top: "0",
             width: "100%",
-            height: "20%",
+            height: "10%",
         }
 
         const App = () => {
@@ -91,16 +112,20 @@
 
             return (
                 <div style={backGround}>
-                    <header style={blogHeader}>Blog</header>
+                    <header style={blogHeader}>
+                        <img src="img\dans_logo.png" alt="My logo" height="80%"/> 
+                        <img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/>   
+                    </header>
                     <div style={blogContent}>
+                        <h1 style={gameTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
                         {blogs.map((blog, index) => {
                             return(
                                 <div key={index} style={postCard}>
-                                    <h1 style={gameTitle}>{blog.title}</h1>
+                                    <h2 style={gameTitle}>{blog.title}</h2>
                                     <img src={blog.picture} alt="GameImage" style={gameImage}/>
                                     <p style={gameText}>{blog.post_description}</p>
-                                    <h2 style={gameText}>Puntos a destacar</h2>
-                                    <p style={gameText}>{blog.points}</p>
+                                    <h3 style={pointsTitle}>Puntos a destacar</h3>
+                                    <p style={pointsStyle}>{blog.points}</p>
                                 </div>
                             )
                         })}    
