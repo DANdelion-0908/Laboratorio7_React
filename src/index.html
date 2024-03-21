@@ -10,64 +10,101 @@
 </head>
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
+        const backEndURL = 'http://localhost:22217/posts'
 
-        const data = [
-            {
-                "id": 4,
-                "title": "Pokémon",
-                "picture": "../Eula.jpg",
-                "vision": "GOTY",
-                "favorites": "XD",
-                "created_at": "2024-03-06T04:38:27.000Z"
-            },
-
-            {
-                "id": 5,
-                "title": "Mario",
-                "picture": "image.png",
-                "vision": "GOTY",
-                "favorites": "XD",
-                "created_at": "2024-03-06T04:38:27.000Z"
-            }
-        ]
+        // Color Palette from lightest to darkest
         
 
-        const Title = () => {
-            return (
-                <h1>{data[0].title}</h1>
-            )
+        //Styles
+        const gameTitle = {
+            fontFamily: "Arial",
+            color: "white"
         }
 
-        const Image = () => {
-            return (
-                <img src={data[0].picture} alt="Game Image" height="200"/>
-            )
+        const gameText = {
+            fontFamily: "Arial",
+            color: "white"
         }
 
-        const Description = () => {
-            return (
-                <p>{data[0].vision}</p>
-            )
+        const gameImage = {
+            width: "300px",
+            justifySelf: "right"
         }
 
-        const Favorites = () => {
-            return (
-                <ul>
-                    {data.map((listItem, index) => {
-                       return <li key={index}>{listItem.favorites}</li>
-                    })}
-                </ul>
-            )
+        const backGround = {
+            backgroundColor: "#640D14",
+            display: "flex",
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems:"center"
+        }
+
+        const blogContent = {
+            backgroundColor: "#AD2831",
+            maxWidth: "60%",
+            paddingTop: "10%"
+        }
+
+        const postCard = {
+            display: "flex",
+            flexDirection: "column",
+            padding: "3%",
+            justifyContent: "center"
+        }
+
+        const blogHeader = {
+            backgroundColor: "#800E13",
+            color: "white",
+            fontSize: "50px",
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "space-evenly",
+            fontFamily: "Arial",
+            alignContent: "center",
+            position: "fixed",
+            top: "0",
+            width: "100%",
+            height: "20%",
         }
 
         const App = () => {
+            const [blogs, setBlogs] = React.useState([])
+
+            async function getBlogs() {
+                let listado = await fetch(backEndURL , {
+                    method: 'GET',
+                    cache:"default"
+                })
+                let listado_json = await listado.json()
+
+                setBlogs(listado_json)
+            }
+
+            React.useEffect(() => {
+                getBlogs()
+            }, [])
+
+            console.log(blogs)
+
             return (
-                <div>
-                    <Title/>
-                    <Image/>
-                    <Description/>
-                    <Favorites/>
+                <div style={backGround}>
+                    <header style={blogHeader}>Blog</header>
+                    <div style={blogContent}>
+                        {blogs.map((blog, index) => {
+                            return(
+                                <div key={index} style={postCard}>
+                                    <h1 style={gameTitle}>{blog.title}</h1>
+                                    <img src={blog.picture} alt="GameImage" style={gameImage}/>
+                                    <p style={gameText}>{blog.post_description}</p>
+                                    <h2 style={gameText}>Puntos a destacar</h2>
+                                    <p style={gameText}>{blog.points}</p>
+                                </div>
+                            )
+                        })}    
+                    </div>
                 </div>
             )
         }

@@ -1,9 +1,10 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: ./
-      dockerfile: dockerfiles/Dockerfile
+  frontend:
+    image: nginx:alpine
     ports:
-      - "2269:3000"
+      - "8080:80"
+    volumes:
+      - ./src:/usr/share/nginx/html/
+    command: ["nginx", "-g", "daemon off;"]
