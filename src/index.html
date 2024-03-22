@@ -25,8 +25,11 @@
         //Styles
         const gameTitle = {
             fontFamily: "Verdana, sans-serif",
+            color: "#006D77",
             gridColumn: "1 / span 2",
-            fontSize: "2vw"
+            gridRow: "1",
+            fontSize: "2vw",
+
         }
 
         const blogTitle = {
@@ -37,18 +40,20 @@
 
         const gameText = {
             fontFamily: "Verdana, sans-serif",
-            gridColumn: 1,
-            gridRow: 2,
-            fontSize: "1vw"
+            gridColumn: "1",
+            gridRow: "2",
+            fontSize: "1vw",
+            paddingTop: "4%"
         }
 
         const gameImage = {
             width: "60%",
-            gridColumn: 2,
-            gridRow: 2,
+            gridColumn: "2",
+            gridRow: "2",
             justifySelf: "center",
             alignSelf: "center",
-            boxShadow: "1vw 1vw #B8DEDC"
+            boxShadow: "1vw 1vw #B8DEDC",
+            paddingTop: "6%"
         }
         
         const imageLinks = {
@@ -59,13 +64,14 @@
 
         const pointsTitleStyle = {
             fontFamily: "Verdana, sans-serif",
-            gridRow: 3,
+            gridRow: "3",
             gridColumn: "1 / span 2",
-            fontSize: "1vw"
+            color: "#006D77",
+            fontSize: "1.5vw"
         }
 
         const pointsStyle = {
-            gridRow: 4,
+            gridRow: "4",
             gridColumn: "1 / span 2",
             fontFamily: "Verdana, sans-serif",
             fontSize: "1vw"
@@ -81,6 +87,8 @@
             width: "100%",
             justifyContent: "center",
             alignItems:"center",
+            lineHeight: "1.5vw",
+            textAlign: "justify"
         }
 
         const blogContent = {
@@ -96,8 +104,7 @@
         }
 
         const postCard = {
-            display: "grid",
-            columnGap: "5%",
+            display: "grid"
         }
 
         const blogHeader = {
@@ -132,9 +139,17 @@
             padding: "0.1vw 2vw",
             fontSize: "1vw",
             minWidth: "4vw",
-            borderRadius: "10vw",
+            borderRadius: "0.5vw",
             border: "3px solid #006D77",
             cursor: "pointer"
+        }
+
+        const lineTitle = {
+            border: "1% solid black",
+            gridColumn: "1 / span 2",
+            gridRow: "1",
+            alignSelf: "end",
+            width: "100%",
         }
 
         function Loading() {
@@ -154,7 +169,7 @@
                             <button style={blogButton} onClick={increase}>Siguiente</button>
                         </footer>
                         <div style={blogContent}>
-                                <h1 style={blogTitle}>No se encontró ningún post con el ID {actualID}.</h1>  
+                                <h1 style={blogTitle}>No hay más blogs para mostrar ({actualID}).</h1>  
                         </div>
                     </div>
             )
@@ -234,6 +249,7 @@
                                 return(
                                     <div key={index} style={postCard}>
                                         <h2 style={gameTitle}>{blog.title}</h2>
+                                        <hr style={lineTitle}/>
                                         <img src={blog.picture} alt="GameImage" style={gameImage}/>
                                         <p style={gameText}>{blog.post_description}</p>
                                         <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
