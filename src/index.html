@@ -32,7 +32,7 @@
         const blogTitle = {
             fontFamily: "Verdana, sans-serif",
             textAlign: "center",
-            fontSize: "3vw"
+            fontSize: "2vw"
         }
 
         const gameText = {
@@ -47,7 +47,8 @@
             gridColumn: 2,
             gridRow: 2,
             justifySelf: "center",
-            alignSelf: "center"
+            alignSelf: "center",
+            boxShadow: "1vw 1vw #006D77"
         }
         
         const imageLinks = {
@@ -88,9 +89,10 @@
             marginTop: "15%",
             marginBottom: "5%",
             padding: "2% 2% 2% 2%",
-            border: "3px solid LIGHTBLUE",
+            border: "0.3vw solid LIGHTBLUE",
             borderRadius: "10px",
-            fontSize: "100%"
+            fontSize: "100%",
+            boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
         }
 
         const postCard = {
@@ -144,6 +146,7 @@
                 <div style={backGround}>
                         <header style={blogHeader}>
                             <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
+                            <h1 style={blogTitle}>ERROR</h1>
                             <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
                         </header>
                         <footer style={blogFooter}>
@@ -159,9 +162,21 @@
 
         const App = () => {
             const [blogs, setBlogs] = React.useState([])
+            const [loading, setLoading] = React.useState(true)
             const [postID, setPostID] = React.useState(1)
             
             console.log(postID)
+
+            async function getBlogs() {
+                let listado = await fetch(backEndURL + postID, {
+                    method: 'GET',
+                    cache:"default"
+                })
+                let listado_json = await listado.json()
+
+                setBlogs(listado_json)
+                setLoading(false)
+            }
             
             const increase = () => {
                 setPostID(postID + 1)
@@ -174,22 +189,13 @@
             }
 
             React.useEffect(() => {
-                    async function getBlogs() {
-                        let listado = await fetch(backEndURL + postID, {
-                            method: 'GET',
-                            cache:"default"
-                        })
-                        let listado_json = await listado.json()
-        
-                        setBlogs(listado_json)
-                    }
                     getBlogs()
     
             }, [postID])
 
             console.log(blogs)
 
-            if (blogs.length != 0) {
+            if (loading) {
                 return (
                     <div style={backGround}>
                         <header style={blogHeader}>
@@ -201,27 +207,43 @@
                             <button style={blogButton} onClick={increase}>Siguiente</button>
                         </footer>
                         <div style={blogContent}>
-                            <Suspense fallback={<Loading />}>
-                                <h1 style={blogTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
-                                {blogs.map((blog, index) => {
-                                    return(
-                                        <div key={index} style={postCard}>
-                                            <h2 style={gameTitle}>{blog.title}</h2>
-                                            <img src={blog.picture} alt="GameImage" style={gameImage}/>
-                                            <p style={gameText}>{blog.post_description}</p>
-                                            <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
-                                            <p style={pointsStyle}>{blog.points}</p>
-                                        </div>
-                                    )
-                                })}   
-                            </Suspense> 
+                                <h1 style={blogTitle}>Cargando...</h1>  
                         </div>
                     </div>
                 )
-                
-            } else {
-                return EmptyState(postID, increase, decrease)
             }
+
+            if (blogs.length === 0) {
+                return EmptyState(postID, increase, decrease)
+                
+            }
+
+            return (
+                <div style={backGround}>
+                    <header style={blogHeader}>
+                        <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
+                        <h1 style={blogTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
+                        <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
+                    </header>
+                    <footer style={blogFooter}>
+                        <button style={blogButton} onClick={decrease}>Anterior</button>    
+                        <button style={blogButton} onClick={increase}>Siguiente</button>
+                    </footer>
+                    <div style={blogContent}>
+                            {blogs.map((blog, index) => {
+                                return(
+                                    <div key={index} style={postCard}>
+                                        <h2 style={gameTitle}>{blog.title}</h2>
+                                        <img src={blog.picture} alt="GameImage" style={gameImage}/>
+                                        <p style={gameText}>{blog.post_description}</p>
+                                        <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
+                                        <p style={pointsStyle}>{blog.points}</p>
+                                    </div>
+                                )
+                            })}   
+                    </div>
+                </div>
+            )
         }
 
         ReactDOM.render(<App />, document.getElementById('root'))
