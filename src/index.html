@@ -24,60 +24,77 @@
         const gameTitle = {
             fontFamily: "Verdana, sans-serif",
             gridColumn: "1 / span 2",
+            fontSize: "2vw"
+        }
+
+        const blogTitle = {
+            fontFamily: "Verdana, sans-serif",
+            textAlign: "center",
+            fontSize: "3vw"
         }
 
         const gameText = {
             fontFamily: "Verdana, sans-serif",
-            gridColumn: "1 / 1",
-            gridRow: 2
+            gridColumn: 1,
+            gridRow: 2,
+            fontSize: "1vw"
         }
 
         const gameImage = {
-            width: "300px",
+            width: "60%",
             gridColumn: 2,
             gridRow: 2,
-            justifySelf: "end"
+            justifySelf: "center",
+            alignSelf: "center"
         }
         
         const imageLinks = {
-            height: "50%",
+            height: "3vw",
             justifySelf: "end",
-            padding: "0 2% 0 2%"
+            padding: "0 20px 0 2%",
         }
 
-        const pointsTitle = {
+        const pointsTitleStyle = {
             fontFamily: "Verdana, sans-serif",
             gridRow: 3,
-            gridColumn: "1 / span2"
+            gridColumn: "1 / span 2",
+            fontSize: "1vw"
         }
 
         const pointsStyle = {
             gridRow: 4,
             gridColumn: "1 / span 2",
-            fontFamily: "Verdana, sans-serif"
+            fontFamily: "Verdana, sans-serif",
+            fontSize: "1vw"
         }
 
         const backGround = {
-            backgroundColor: COOLGRAY,
+            backgroundImage: "url('img/background.svg')",
             display: "flex",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
             height: "100%",
             width: "100%",
             justifyContent: "center",
-            alignItems:"center"
+            alignItems:"center",
         }
 
         const blogContent = {
             backgroundColor: WHITESMOKE,
             maxWidth: "60%",
-            padding: "2%",
+            marginTop: "15%",
+            marginBottom: "5%",
+            padding: "2% 2% 2% 2%",
+            border: "3px solid LIGHTBLUE",
+            borderRadius: "10px",
+            fontSize: "100%"
         }
 
         const postCard = {
             display: "grid",
-            columnGap: "2%",
-            paddingBottom: "20%"
+            columnGap: "5%",
         }
-
 
         const blogHeader = {
             backgroundColor: LIGHTBLUE,
@@ -89,6 +106,35 @@
             top: "0",
             width: "100%",
             height: "10%",
+        }
+
+        const blogFooter = {
+            backgroundColor: LIGHTBLUE,
+            display: "flex",
+            fontFamily: "Verdana, sans-serif",
+            justifyContent: "space-between",
+            alignItems: "center",
+            position: "fixed",
+            bottom: "0",
+            width: "100%",
+            flexGrow: "1",
+            height: "5%",
+            padding: "0 5% 0 5%"
+        }
+
+        const blogButton = {
+            backgroundColor: CARIBBEANCURRENT,
+            color: "white",
+            padding: "0.1vw 2vw",
+            fontSize: "1vw",
+            minWidth: "4vw",
+            borderRadius: "10vw",
+            border: "3px solid #006D77",
+            cursor: "pointer"
+        }
+
+        const EmptyState = () => {
+            
         }
 
         const App = () => {
@@ -113,18 +159,22 @@
             return (
                 <div style={backGround}>
                     <header style={blogHeader}>
-                        <img src="img\dans_logo.png" alt="My logo" height="80%"/> 
-                        <img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/>   
+                        <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
+                        <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
                     </header>
+                    <footer style={blogFooter}>
+                        <button style={blogButton}>Anterior</button>    
+                        <button style={blogButton}>Siguiente</button>
+                    </footer>
                     <div style={blogContent}>
-                        <h1 style={gameTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
+                        <h1 style={blogTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
                         {blogs.map((blog, index) => {
                             return(
                                 <div key={index} style={postCard}>
                                     <h2 style={gameTitle}>{blog.title}</h2>
                                     <img src={blog.picture} alt="GameImage" style={gameImage}/>
                                     <p style={gameText}>{blog.post_description}</p>
-                                    <h3 style={pointsTitle}>Puntos a destacar</h3>
+                                    <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
                                     <p style={pointsStyle}>{blog.points}</p>
                                 </div>
                             )
