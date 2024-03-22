@@ -12,7 +12,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const backEndURL = 'http://localhost:22217/posts'
+        const backEndURL = 'http://localhost:22217/posts/'
 
         // Color Palette
         const WHITESMOKE = "#F2F0F0" // Content
@@ -133,15 +133,30 @@
             cursor: "pointer"
         }
 
-        const EmptyState = () => {
-            
+        const EmptyState = (actualID, increase, decrease) => {
+            return (
+                <div style={backGround}>
+                        <header style={blogHeader}>
+                            <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
+                            <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
+                        </header>
+                        <footer style={blogFooter}>
+                            <button style={blogButton} onClick={decrease}>Anterior</button>    
+                            <button style={blogButton} onClick={increase}>Siguiente</button>
+                        </footer>
+                        <div style={blogContent}>
+                            <h1 style={blogTitle}>No se encontró ningún post con el ID {actualID}.</h1>  
+                        </div>
+                    </div>
+            )
         }
 
         const App = () => {
             const [blogs, setBlogs] = React.useState([])
+            const [postID, setPostID] = React.useState(1)
 
             async function getBlogs() {
-                let listado = await fetch(backEndURL , {
+                let listado = await fetch(backEndURL + postID, {
                     method: 'GET',
                     cache:"default"
                 })
@@ -150,38 +165,56 @@
                 setBlogs(listado_json)
             }
 
+            const increase = () => {
+                setPostID(postID + 1)
+            }
+
+            const decrease = () => {
+                if (postID > 1) {
+                     setPostID(postID - 1)
+                }
+            }
+
+            console.log(postID)
+
             React.useEffect(() => {
                 getBlogs()
-            }, [])
+            }, [postID])
 
             console.log(blogs)
 
-            return (
-                <div style={backGround}>
-                    <header style={blogHeader}>
-                        <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
-                        <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
-                    </header>
-                    <footer style={blogFooter}>
-                        <button style={blogButton}>Anterior</button>    
-                        <button style={blogButton}>Siguiente</button>
-                    </footer>
-                    <div style={blogContent}>
-                        <h1 style={blogTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
-                        {blogs.map((blog, index) => {
-                            return(
-                                <div key={index} style={postCard}>
-                                    <h2 style={gameTitle}>{blog.title}</h2>
-                                    <img src={blog.picture} alt="GameImage" style={gameImage}/>
-                                    <p style={gameText}>{blog.post_description}</p>
-                                    <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
-                                    <p style={pointsStyle}>{blog.points}</p>
-                                </div>
-                            )
-                        })}    
+            if (blogs.length != 0) {
+                return (
+                    <div style={backGround}>
+                        <header style={blogHeader}>
+                            <img src="img\dans_logo.png" alt="My logo" height="70%"/> 
+                            <a href="https://github.com/DANdelion-0908/Laboratorio7_React.git" target="_blank"><img src="img/github_logo.png" alt="GitHub Logo" style={imageLinks}/></a>   
+                        </header>
+                        <footer style={blogFooter}>
+                            <button style={blogButton} onClick={decrease}>Anterior</button>    
+                            <button style={blogButton} onClick={increase}>Siguiente</button>
+                        </footer>
+                        <div style={blogContent}>
+                            <h1 style={blogTitle}>Mis videojuegos favoritos de todos los tiempos</h1>
+                            {blogs.map((blog, index) => {
+                                return(
+                                    <div key={index} style={postCard}>
+                                        <h2 style={gameTitle}>{blog.title}</h2>
+                                        <img src={blog.picture} alt="GameImage" style={gameImage}/>
+                                        <p style={gameText}>{blog.post_description}</p>
+                                        <h3 style={pointsTitleStyle}>Puntos a destacar</h3>
+                                        <p style={pointsStyle}>{blog.points}</p>
+                                    </div>
+                                )
+                            })}    
+                        </div>
                     </div>
-                </div>
-            )
+                )
+                
+            } else {
+                return EmptyState(postID, increase, decrease)
+            }
+
         }
 
         ReactDOM.render(<App />, document.getElementById('root'))
